@@ -3,6 +3,27 @@ from flask import request, jsonify
 import requests
 
 app = flask.Flask(__name__)
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "Repair Babe Chatbot API is running!"
+
+@app.route("/chat", methods=["GET"])
+def chat():
+    user_message = request.args.get("message", "").lower()
+    responses = {
+        "hello": "Hi there! How can I assist you today?",
+        "pricing": "I can help with pricing. What device do you need repaired?",
+        "bye": "Goodbye! Let me know if you need anything else!"
+    }
+    bot_response = responses.get(user_message, "I'm not sure I understand, but I'm here to help!")
+    return jsonify({"response": bot_response})
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
 
 # Function to fetch part prices from Amazon
 def get_amazon_price(part_name):
